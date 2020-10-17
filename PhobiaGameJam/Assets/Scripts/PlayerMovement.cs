@@ -22,4 +22,20 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * movespeed * Time.fixedDeltaTime);
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("TextBox"))
+        {
+            Destroy(other.gameObject);
+            
+        }
+
+        if (other.gameObject.CompareTag("FailTextBox"))
+        {
+            Destroy(other.gameObject);
+         
+
+        }
+    }
 }
