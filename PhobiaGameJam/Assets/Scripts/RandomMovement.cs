@@ -1,50 +1,67 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class RandomMovement : MonoBehaviour
 {
-    public float moveSpeed;
-    public Vector3 dir;
-    public float turnSpeed;
-    float targetAngle;
-    Vector3 currentPos;
-    bool play = true;
-    Vector3 direction;
-    void Start()
-    {
-        dir = Vector3.up;
-        InvokeRepeating("Start1", 0f, 5f);
-    }
-    void Start1()
-    {
-        play = true;
-        direction = new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-4.0f, 4.0f), 0); //random position in x and y
-    }
+
+    private bool selectNewRandomPosition = true;
+    private bool waitingForNewPosition = false;
+    public float minX;
+    public float maxX;
+    public float minY;
+    public float maxY;
+    public float movementSpeed;
+    public float newPositionWaitTime;
+    private float moveX;
+    private float moveY;
+    private float newX;
+    private float newY;
+    private float stopX;
+    private float stopY;
+    private float frameX;
+    private float frameY;
+    private float movedX;
+    private float movedY;
+
+    // Update is called once per frame
     void Update()
     {
-        currentPos = transform.position;//current position of gameObject
-        if (play)
-        { //calculating direction
-            dir = direction - currentPos;
-
-            dir.z = 0;
-            dir.Normalize();
-            play = false;
+        if (selectNewRandomPosition)
+        {
+            StartCoroutine(newRandomPosition());
         }
-        Vector3 target = dir * moveSpeed + currentPos;  //calculating target position
-        transform.position = Vector3.Lerp(currentPos, target, Time.deltaTime);//movement from current position to target position
-        targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90; //angle of rotation of gameobject
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, targetAngle), turnSpeed * Time.deltaTime); //rotation from current direction to target direction
+        else if (!waitingForNewPosition)
+        {
+            frameX = (moveX * Time.deltaTime * movementSpeed);
+            frameY = (moveY * Time.deltaTime * movementSpeed);
+            movedX += frameX;
+            movedY += frameY;
+            newX = this.transform.position.x + frameX;
+            newY = this.transform.position.y + frameY;
+            if (Mathf.Abs(movedY) >= Mathf.Abs(moveX) || Mathf.Abs(movedY) >= Mathf.Abs(moveY))
+            {
+                waitingForNewPosition = true;
+                selectNewRandomPosition = true;
+            }
+            else
+            {
+                this.transform.position = new Vector3(newX, newY, this.transform.position.z);
+            }
+        }
     }
-    void OnCollisionEnter2D()
-    {
 
-        CancelInvoke();//stop call to start1 method
-        direction = new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-4.0f, 4.0f), 0); //again provide random position in x and y
-        play = true;
-
-    }
-    void OnCollisionExit2D()
+    IEnumerator newRandomPosition()
     {
-        InvokeRepeating("Start1", 2f, 5f);
+        waitingForNewPosition = true;
+        selectNewRandomPosition = false;
+        yield return new WaitForSeconds(newPositionWaitTime);
+        moveX = Random.Range(minX, maxX);
+        moveY = Random.Range(minY, maxY);
+        stopX = this.transform.position.x + moveX;
+        stopY = this.transform.position.y + moveY;
+        movedX = 0f;
+        movedY = 0f;
+        waitingForNewPosition = false;
     }
 }
