@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TextBox
   - FailTextBox
+  - Wall
   layers:
   - Default
   - TransparentFX
