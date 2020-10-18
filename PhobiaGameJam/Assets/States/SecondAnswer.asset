@@ -10,10 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c98c8f67e98dc64f9623488f316a9b2, type: 3}
-  m_Name: SecondState
+  m_Name: SecondAnswer
   m_EditorClassIdentifier: 
-  questionText: "My wife is an amazing cook, unlike my previous one haha ! This woman
-    had the gall to cheat on me, can you imagine ? \r\n\r\nSurely you\u2019re not
-    the type to cheat on my lovely little girl are you ?\r\n"
-  nextStates:
-  - {fileID: 11400000, guid: aefe0a72ab83ca1409915aab29e20b7c, type: 2}
+  questionText: "fsnl\xF6f"
+  nextStates: []
