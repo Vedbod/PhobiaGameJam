@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    public GameObject winState;
+    public GameObject failState;
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.collider.tag == "TextBox")
+        if (other.gameObject.tag == "TextBox")
         {
             Debug.Log("YOU WON!");
+            winState.gameObject.SetActive(true);
         }
-        else if (collision.collider.tag == "FailTextBox")
+        else if (other.gameObject.tag == "FailTextBox")
         {
             Debug.Log("YOU LOST!");
+            failState.gameObject.SetActive(true);
         }
     }
 }
