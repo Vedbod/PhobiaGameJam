@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    public int answer;
     public float movespeed = 5f;
 
     public Rigidbody2D rb;
@@ -23,19 +24,23 @@ public class PlayerMovement : MonoBehaviour
         rb.MovePosition(rb.position + movement * movespeed * Time.fixedDeltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("TextBox"))
         {
             Destroy(other.gameObject);
-       
+            answer = 0;
         }
 
         if (other.gameObject.CompareTag("FailTextBox"))
         {
             Destroy(other.gameObject);
-         
+            answer = 1; 
 
         }
+
     }
+
+    
+
 }
