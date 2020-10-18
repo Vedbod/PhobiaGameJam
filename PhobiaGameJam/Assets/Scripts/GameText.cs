@@ -19,6 +19,9 @@ public class GameText : MonoBehaviour
     {
         state = startingState;
         textComponent.text = state.GetStateStory();
+        GameObject Player = GameObject.Find("Player");
+        PlayerMovement playerMovement = Player.GetComponent<PlayerMovement>();
+        int answer = playerMovement.answer;
     }
 
     // Update is called once per frame
@@ -26,17 +29,17 @@ public class GameText : MonoBehaviour
     {
         ManageState();
     }
-
+    int stateAnswer;
     private void ManageState()
     {
-        var nextStates = state.GetNextStates();
+       var nextStates = state.GetNextStates();
         
-       if(Input.GetKeyDown(KeyCode.Alpha1))  
+       if (stateAnswer == 0)
        {
            state = nextStates[0];
        }
 
-       else if (Input.GetKeyDown(KeyCode.Alpha2))   
+       else if (stateAnswer == 1)   
        {
            state = nextStates[1];
        }
