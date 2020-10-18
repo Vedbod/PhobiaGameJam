@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("TextBox"))
         {
             Destroy(other.gameObject);
-            
+       
         }
 
         if (other.gameObject.CompareTag("FailTextBox"))
